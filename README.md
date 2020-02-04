@@ -8,4 +8,4 @@ Here are some more random changes.
 Chidi, Eleanor, Tahani, Jason, Michael, Janet. Smith, Max, Fredericks.
 
 Some LOTR characters
-Gimli, Aragorn, Legolas
+Gimli, Aragorn, Legolas  (Jeff)
