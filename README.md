@@ -10,3 +10,6 @@ Chidi, Eleanor, Tahani, Michael, Janet. Smith, Max, Fredericks.
 Some LOTR characters
 Gimli, Aragorn, Legolas  Bilbo (JH)
 
+# Runtime details
+
+This is how you run the code.
