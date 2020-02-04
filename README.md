@@ -5,4 +5,4 @@ My first change:
 Welcome! Everything is fine. Jeremy Bearimy.
 
 Here are some more random changes.
-Chidi, Eleanor, Tahani, Jason, Michael, Janet.
+Chidi, Eleanor, Tahani, Jason, Michael, Janet. Smith, Max, Fredericks.
