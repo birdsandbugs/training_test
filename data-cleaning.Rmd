@@ -14,7 +14,7 @@ library(dplyr)
 library(tidyr)
 ```
 
-#Read in the data
+# Read in the data
 ```{r}
 catch_original <- read.csv("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1",
                     stringsAsFactors = FALSE)
@@ -23,9 +23,40 @@ catch_original <- read.csv("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/d
 
 # Make data tidy
 
+I in column chinook (row 401) should be a 1.
+
+```{r}
+catch_clean <- catch_original %>% 
+    select(Region, Year, Chinook, Sockeye, Coho, Pink, Chum) %>%
+    mutate(Chinook = ifelse(Chinook == "I", 1, Chinook)) %>% 
+    mutate(Chinook = as.integer(Chinook))
+    
+```
+
 ## Data QA 
 
+Determine which values were converted to NA by as.numeric.
+
+```{r}
+
+i <- which(is.na(catch_clean$Chinook))
+
+catch_original[i,]
+
+```
+
 ## Convert to long format
+
+```{r}
+
+catch_long <- catch_clean %>%
+    pivot_longer(cols = -c(Region, Year), 
+                 names_to = "species",
+                 values_to = "catch") %>%
+    rename(catch_thousands = catch) %>% 
+    mutate(catch = catch_thousands*1000)
+
+```
 
 # Summarize 
 
