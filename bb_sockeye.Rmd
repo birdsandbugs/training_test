@@ -1,0 +1,82 @@
+---
+title: "Sockeye goals in Bristol Bay"
+author: "Graham Montgomery"
+date: "2/5/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, warning = FALSE, message = FALSE}
+library(dplyr)
+library(tidyr)
+```
+
+## Our overarching question
+Are Sockeye salmon escapement goals being met in recent years in Bristol Bay?
+
+## Read in the data
+
+```{r}
+goals <- read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/knb.92014.1", method = "libcurl"), stringsAsFactors = FALSE)
+
+counts <- read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3Auuid%3Af119a05b-bbe7-4aea-93c6-85434dcb1c5e", method = "libcurl"), stringsAsFactors = FALSE)
+
+head(goals)
+
+head(daily_counts)
+```
+
+## Clean the data
+
+```{r}
+glimpse(goals)
+
+clean_goals <- goals %>%  
+    filter(Species == "Sockeye" & Region == "Bristol Bay") %>% 
+    mutate(Initial.Year == as.numeric(Initial.Year)) %>% 
+    mutate(Lower == as.numeric(Lower)) %>% 
+    select(Area, Species, Region, System, Lower, Upper, Type, Initial.Year)
+
+clean_counts <- counts %>% 
+    filter(Species == "Sockeye" & SASAP.Region == "Bristol Bay") %>%
+    separate(sampleDate, c("year", "month", "day"), sep = "-", convert = TRUE) 
+```
+
+## Create a yearly total table
+
+```{r}
+yearly_counts <- clean_counts %>% 
+    group_by(Location, year) %>% 
+    summarize(yearly_catch = sum(DailyCount))
+```
+
+## Join the data
+
+```{r}
+
+clean_goals_bounds <- clean_goals %>% select(System, Lower, Upper, Initial.Year)
+
+joined <- left_join(yearly_counts, clean_goals_bounds, by = c("Location" = "System"))
+
+```
+
+## Create a column showing if goal was met or not
+
+```{r}
+
+joined <- filter(joined, year>Initial.Year)
+joined <- joined %>% mutate(goal_met = (yearly_catch > Lower & yearly_catch < Upper))
+prop_missed <- (length(joined$goal_met) - sum(joined$goal_met))/length(joined$goal_met)
+
+```
+
+
+
+
+
+
