@@ -76,7 +76,7 @@ prop_missed <- (length(joined$goal_met) - sum(joined$goal_met))/length(joined$go
 ```
 
 
-
+### Note: this solution has not been checked and may be wrong!
 
 
 
