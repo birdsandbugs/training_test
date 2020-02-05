@@ -28,7 +28,7 @@ counts <- read.csv(url("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/urn%3
 
 head(goals)
 
-head(daily_counts)
+head(counts)
 ```
 
 ## Clean the data
