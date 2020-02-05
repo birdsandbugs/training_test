@@ -9,8 +9,24 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Yadda
+```{r, warning = FALSE, message = FALSE}
+library(dplyr)
+library(tidyr)
+```
 
-## Yadda
+#Read in the data
+```{r}
+catch_original <- read.csv("https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1",
+                    stringsAsFactors = FALSE)
 
-## Yadda
+```
+
+# Make data tidy
+
+## Data QA 
+
+## Convert to long format
+
+# Summarize 
+
+# Join to other data
