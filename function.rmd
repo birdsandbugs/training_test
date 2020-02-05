@@ -1,0 +1,50 @@
+---
+title: "Practice function"
+author: "Graham Montgomery"
+date: "2/5/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(roxygen2)
+```
+
+## Create a vector of temps
+```{r}
+airtemps <- c(212, 30.3, 78, 32, 0)
+celsius1 <- (airtemps[1]-32)*5/9
+```
+
+## Define a conversion function that translates Fahrenheit to Celsius
+```{r}
+#' convert degrees Fahrenheit to Celsius
+#'
+#' We use the simple formula for temperature conversion to convert.
+#' One can find this in any intro physics book.
+#' @param fahr The temperature in degrees F to be converted.
+#' @return the temperature converted to degrees C.
+fahr_to_celsius <- function(fahr) {
+    celsius <- (fahr-32)*5/9
+    return(celsius)
+}
+```
+
+## Define a function for C to F
+```{r}
+celsius_to_fahr <- function(celsius) {
+    fahr <- (celsius*9/5) + 32 
+    return(fahr)
+}
+```
+
+## Testing
+```{r}
+celsius_temps <- fahr_to_celsius(airtemps)
+celsius_to_fahr(celsius_temps) == airtemps
+```
+
+
