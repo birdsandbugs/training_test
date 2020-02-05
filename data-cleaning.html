@@ -369,14 +369,116 @@ summary {
 </div>
 
 
-<div id="yadda" class="section level2">
-<h2>Yadda</h2>
+<pre class="r"><code>library(dplyr)
+library(tidyr)</code></pre>
+<div id="read-in-the-data" class="section level1">
+<h1>Read in the data</h1>
+<pre class="r"><code>catch_original &lt;- read.csv(url(&quot;https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.302.1&quot;, 
+                               method = &quot;libcurl&quot;), stringsAsFactors = FALSE)</code></pre>
 </div>
-<div id="yadda-1" class="section level2">
-<h2>Yadda</h2>
+<div id="make-data-tidy" class="section level1">
+<h1>Make data tidy</h1>
+<p>I in column chinook (row 401) should be a 1.</p>
+<pre class="r"><code>catch_clean &lt;- catch_original %&gt;% 
+    select(Region, Year, Chinook, Sockeye, Coho, Pink, Chum) %&gt;%
+    mutate(Chinook = ifelse(Chinook == &quot;I&quot;, 1, Chinook)) %&gt;% 
+    mutate(Chinook = as.integer(Chinook))</code></pre>
+<div id="data-qa" class="section level2">
+<h2>Data QA</h2>
+<p>Determine which values were converted to NA by as.numeric.</p>
+<pre class="r"><code>i &lt;- which(is.na(catch_clean$Chinook))
+
+catch_original[i,]</code></pre>
+<pre><code>## [1] Region       Year         Chinook      Sockeye      Coho        
+## [6] Pink         Chum         All          notesRegCode
+## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 </div>
-<div id="yadda-2" class="section level2">
-<h2>Yadda</h2>
+<div id="convert-to-long-format" class="section level2">
+<h2>Convert to long format</h2>
+<pre class="r"><code>catch_long &lt;- catch_clean %&gt;%
+    pivot_longer(cols = -c(Region, Year), 
+                 names_to = &quot;species&quot;,
+                 values_to = &quot;catch&quot;) %&gt;%
+    rename(catch_thousands = catch) %&gt;% 
+    mutate(catch = catch_thousands*1000)</code></pre>
+</div>
+</div>
+<div id="summarize" class="section level1">
+<h1>Summarize</h1>
+<pre class="r"><code>mean_region &lt;- catch_long %&gt;% 
+    group_by(Region, species) %&gt;% 
+    summarize(mean_catch = mean(catch))</code></pre>
+<p>#Filter for only sockeye species</p>
+<pre class="r"><code>sockeye_catch &lt;- catch_long %&gt;% 
+    filter(species == &quot;Sockeye&quot;) %&gt;% 
+    group_by(Year) %&gt;% 
+    summarize(mean_catch = mean(catch)) %&gt;% 
+    arrange(desc(mean_catch))</code></pre>
+</div>
+<div id="join-to-other-data" class="section level1">
+<h1>Join to other data</h1>
+<p>Read in the region definitions table</p>
+<pre class="r"><code>region_defs &lt;- read.csv(url(&quot;https://knb.ecoinformatics.org/knb/d1/mn/v2/object/df35b.303.1&quot;, method = &quot;libcurl&quot;), stringsAsFactors = FALSE) %&gt;% select(code, mgmtArea)
+
+head(region_defs)</code></pre>
+<pre><code>##      code                                  mgmtArea
+## 1     GSE              Unallocated Southeast Alaska
+## 2     NSE                 Northern Southeast Alaska
+## 3     SSE                 Southern Southeast Alaska
+## 4     YAK                                   Yakutat
+## 5 PWSmgmt      Prince William Sound Management Area
+## 6     BER Bering River Subarea Copper River Subarea</code></pre>
+<p>Join it to our main dataframe.</p>
+<pre class="r"><code>catch_joined &lt;- left_join(catch_long, region_defs,
+                          by = c(&quot;Region&quot; = &quot;code&quot;))
+
+head(catch_joined)</code></pre>
+<pre><code>## # A tibble: 6 x 6
+##   Region  Year species catch_thousands catch mgmtArea                 
+##   &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;             &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;                    
+## 1 SSE     1886 Chinook               0     0 Southern Southeast Alaska
+## 2 SSE     1886 Sockeye               5  5000 Southern Southeast Alaska
+## 3 SSE     1886 Coho                  0     0 Southern Southeast Alaska
+## 4 SSE     1886 Pink                  0     0 Southern Southeast Alaska
+## 5 SSE     1886 Chum                  0     0 Southern Southeast Alaska
+## 6 SSE     1887 Chinook               0     0 Southern Southeast Alaska</code></pre>
+<div id="separate-and-unite-examples" class="section level2">
+<h2>Separate and Unite examples</h2>
+<p>Using separate</p>
+<pre class="r"><code>sites_df &lt;- data.frame(site = c(&quot;HAW-101&quot;,
+                                &quot;HAW-103&quot;,
+                                &quot;OAH-320&quot;,
+                                &quot;OAH-219&quot;,
+                                &quot;MAI-039&quot;),
+                       stringsAsFactors = FALSE)
+
+sites_df %&gt;% 
+  separate(site, c(&quot;island&quot;, &quot;site_number&quot;), &quot;-&quot;)</code></pre>
+<pre><code>##   island site_number
+## 1    HAW         101
+## 2    HAW         103
+## 3    OAH         320
+## 4    OAH         219
+## 5    MAI         039</code></pre>
+<p>Using unite</p>
+<pre class="r"><code>dates_df &lt;- data.frame(year = c(&quot;1930&quot;,
+                                &quot;1930&quot;,
+                                &quot;1930&quot;),
+                       month = c(&quot;12&quot;,
+                                &quot;12&quot;,
+                                &quot;12&quot;),
+                       day = c(&quot;14&quot;,
+                               &quot;15&quot;,
+                               &quot;16&quot;),
+                       stringsAsFactors = FALSE)
+
+dates_df %&gt;% 
+  unite(date, year, month, day, sep = &quot;-&quot;)</code></pre>
+<pre><code>##         date
+## 1 1930-12-14
+## 2 1930-12-15
+## 3 1930-12-16</code></pre>
+</div>
 </div>
 
 
