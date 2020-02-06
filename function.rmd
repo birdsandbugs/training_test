@@ -33,12 +33,13 @@ fahr_to_celsius <- function(fahr) {
 }
 ```
 
-## Define a function for C to F
+## Define a function for C to F (replaced by a source script)
 ```{r}
-celsius_to_fahr <- function(celsius) {
-    fahr <- (celsius*9/5) + 32 
-    return(fahr)
-}
+source("conversions.R")
+#celsius_to_fahr <- function(celsius) {
+#    fahr <- (celsius*9/5) + 32 
+#    return(fahr)
+#}
 ```
 
 ## Testing
