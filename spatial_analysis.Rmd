@@ -1,0 +1,123 @@
+---
+title: "Spatial Analysis"
+author: "Graham Montgomery"
+date: "2/7/2020"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(sf)
+library(dplyr)
+library(ggplot2)
+library(scales)
+library(leaflet)
+library(ggmap)
+```
+
+
+## Analysis/cleaning
+
+Read in the spatial data
+```{r}
+ak_regions <- read_sf("shapefile_demo_data/ak_regions_simp.shp")
+
+summary(ak_regions)
+
+st_crs(ak_regions)
+```
+
+Change the projection
+```{r}
+ak_regions_3338 <- ak_regions %>% 
+    st_transform(crs = 3338)
+
+plot(ak_regions_3338) #it looks better now than with the default projection!
+```
+
+Read in the population data
+```{r}
+pop <- read.csv("shapefile_demo_data/alaska_population.csv", stringsAsFactors = F)
+
+head(pop)
+```
+
+Convert the population data to an sf object
+```{r}
+pop_4326 <- st_as_sf(pop, 
+                     coords = c('lng', 'lat'),
+                     crs = 4326,
+                     remove = F) #it's nice to keep these around for leaflet.
+```
+
+Convert population to the proper projection (4326)
+```{r}
+pop_3338 <- pop_4326 %>% 
+    st_transform(crs = 3338)
+```
+
+Do a spatial & population join
+```{r}
+pop_joined <- st_join(pop_3338, ak_regions_3338, join = st_within)
+
+head(pop_joined)
+```
+
+Summarize by region
+```{r}
+pop_region <- pop_joined %>%
+    as.data.frame() %>% 
+    group_by(region) %>% 
+    summarize(total_pop = sum(population))
+
+head(pop_region)
+```
+
+Create a new sf object with population and region
+```{r}
+pop_region_3338 <- left_join(ak_regions_3338, pop_region)
+
+plot(pop_region_3338)
+```
+
+Write this to disc
+```{r}
+write_sf(pop_region_3338, "shapefile_demo_data/ak_region_population.shp",
+         delete_layer = T)
+```
+
+## Making some maps
+```{r}
+ggplot(pop_region_3338) + 
+    geom_sf(mapping = aes(fill = total_pop)) + 
+    geom_sf(data = rivers_3338, mapping = aes(size = StrOrder), color = "black")
+    theme_bw() + 
+    labs(fill = "Total Population") + 
+    scale_fill_continuous(labels = scales::comma)
+
+```
+
+Adding rivers
+```{r}
+rivers_3338 <- read_sf("shapefile_demo_data/ak_rivers_simp.shp")
+st_crs(rivers_3338)
+```
+
+Plotting the rivers
+```{r}
+ggplot() +
+  geom_sf(data = pop_region_3338, aes(fill = total_pop)) +
+  geom_sf(data = rivers_3338, aes(size = StrOrder), color = "black") +
+  geom_sf(data = pop_3338, aes(), size = 1) +
+  scale_size(range = c(0.01, 0.2), guide = F) +
+  theme_bw() +
+  labs(fill = "Total Population") +
+  scale_fill_continuous(low = "khaki", high =  "firebrick", labels = comma)
+
+```
+
