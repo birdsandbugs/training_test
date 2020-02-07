@@ -1,0 +1,329 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\hypersetup{
+  pdftitle={My practice paper template},
+  pdfauthor={Graham Montgomery},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+
+\title{My practice paper template}
+\author{Graham Montgomery}
+\date{2/7/2020}
+
+\begin{document}
+\maketitle
+
+Dependencies
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \KeywordTok{library}\NormalTok{(ggplot2)}
+  \KeywordTok{library}\NormalTok{(knitr)}
+  \KeywordTok{library}\NormalTok{(broom)}
+  \KeywordTok{library}\NormalTok{(captioner)}
+\end{Highlighting}
+\end{Shaded}
+
+Loading the data
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{data}\NormalTok{(diamonds)}
+\KeywordTok{head}\NormalTok{(diamonds)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 10
+##   carat cut       color clarity depth table price     x     y     z
+##   <dbl> <ord>     <ord> <ord>   <dbl> <dbl> <int> <dbl> <dbl> <dbl>
+## 1 0.23  Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## 2 0.21  Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+## 3 0.23  Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## 4 0.290 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+## 5 0.31  Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+## 6 0.24  Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48
+\end{verbatim}
+
+\hypertarget{abstract}{%
+\section{Abstract}\label{abstract}}
+
+I really like using R (R Core Team 2015) for science because of tools
+like RStudio (RStudio Team 2015) and RMarkdown (RMarkdown Team 2015).
+This document is a quick demonstration of writing an academic paper in
+RMarkdown. There's a lot of other resources available on the web but
+hopefully you'll find this document useful as an example.
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Writing reports and academic papers is a ton of work but a large amount
+of that work can be spent doing monotonous tasks such as:
+
+\begin{itemize}
+\tightlist
+\item
+  Updating figures and tables as we refine our analysis
+\item
+  Editing our analysis and, in turn, editing our paper's text
+\item
+  Managing bibliography sections and in-text citations/references
+\end{itemize}
+
+These monotonous tasks are also highly error-prone. With RMarkdown, we
+can close the loop, so to speak, between our analysis and our manuscript
+because the manuscript can become the analysis.
+
+As an alternative to Microsoft Word, RMarkdown provides some advantages:
+
+\begin{itemize}
+\tightlist
+\item
+  Free to use
+\item
+  Uses text so we can:
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Use version control for
+
+    \begin{itemize}
+    \tightlist
+    \item
+      Tracking changes
+    \item
+      Collaborating
+    \end{itemize}
+  \item
+    Edit it with our favorite and most powerful text editors
+  \item
+    Use the command line to for automation
+  \end{itemize}
+\end{itemize}
+
+The rest of this document will show how we get some of the features we
+need such as:
+
+\begin{itemize}
+\tightlist
+\item
+  Attractive typesetting for mathematics
+\item
+  Figures, tables, and captions
+\item
+  In-text citations
+\item
+  Bibliographies
+\end{itemize}
+
+\hypertarget{methods}{%
+\section{Methods}\label{methods}}
+
+Our analysis will be pretty simple. We'll use the \texttt{diamonds}
+dataset from the \texttt{ggplot2} (Wickham 2009) package and run a
+simple linear model. At the top of this document, we started with a code
+chunk with \texttt{echo=FALSE} set as a chunk option so that we can load
+the \texttt{ggplot2} package and \texttt{diamonds} dataset without
+outputting anything to the screen.
+
+For our analysis, we'll create a really great plot which really shows
+the relationship between price and carat and shows how we include plots
+in our document. Then we'll run a linear model of the form
+\(y = mx + b\) on the relationship between price and carat and shows how
+we include tables in our document. We can also put some more advanced
+math in our paper and it will be beautifully typeset:
+
+\[\sum_{i=1}^{N}{log(i) + \frac{\omega}{x}}\]
+
+\[\int_{1}^{n}(x+3)\]
+
+We can also use R itself to generate bibliographic entries for the
+packages we use so we can give proper credit when we use other peoples'
+packages in our analysis. Here we cite the \texttt{ggplot2} package:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\OperatorTok{>}\StringTok{ }\KeywordTok{citation}\NormalTok{(}\StringTok{'ggplot2'}\NormalTok{)}
+
+\NormalTok{To cite ggplot2 }\ControlFlowTok{in}\NormalTok{ publications, please use}\OperatorTok{:}
+
+\StringTok{  }\NormalTok{H. Wickham. ggplot2}\OperatorTok{:}\StringTok{ }\NormalTok{Elegant Graphics }\ControlFlowTok{for}\NormalTok{ Data Analysis. Springer}\OperatorTok{-}\NormalTok{Verlag New York, }\FloatTok{2009.}
+
+\NormalTok{A BibTeX entry }\ControlFlowTok{for}\NormalTok{ LaTeX users is}
+
+  \OperatorTok{@}\NormalTok{Book\{,}
+\NormalTok{    author =}\StringTok{ }\NormalTok{\{Hadley Wickham\},}
+\NormalTok{    title =}\StringTok{ }\NormalTok{\{ggplot2}\OperatorTok{:}\StringTok{ }\NormalTok{Elegant Graphics }\ControlFlowTok{for}\NormalTok{ Data Analysis\},}
+\NormalTok{    publisher =}\StringTok{ }\NormalTok{\{Springer}\OperatorTok{-}\NormalTok{Verlag New York\},}
+\NormalTok{    year =}\StringTok{ }\NormalTok{\{}\DecValTok{2009}\NormalTok{\},}
+\NormalTok{    isbn =}\StringTok{ }\NormalTok{\{}\DecValTok{978-0-387-98140-6}\NormalTok{\},}
+\NormalTok{    url =}\StringTok{ }\NormalTok{\{http}\OperatorTok{:}\ErrorTok{//}\NormalTok{ggplot2.org\},}
+\NormalTok{  \}}
+\end{Highlighting}
+\end{Shaded}
+
+And then we just place that in our \texttt{.bibtex} file.
+
+\hypertarget{results}{%
+\section{Results}\label{results}}
+
+The plot we made was really great (Figure 1).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{ggplot}\NormalTok{(diamonds, }\DataTypeTok{mapping =} \KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ carat,}
+                               \DataTypeTok{y =}\NormalTok{ price,}
+                               \DataTypeTok{color =}\NormalTok{ clarity)) }\OperatorTok{+}\StringTok{ }
+\StringTok{           }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }
+\StringTok{           }\KeywordTok{labs}\NormalTok{(}\DataTypeTok{x =} \StringTok{"Carat Weight"}\NormalTok{, }\DataTypeTok{y =} \StringTok{"Price ($)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{paper1_files/figure-latex/scatterplot-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod <-}\StringTok{ }\KeywordTok{lm}\NormalTok{(price }\OperatorTok{~}\StringTok{ }\NormalTok{carat, diamonds)}
+\KeywordTok{kable}\NormalTok{(}\KeywordTok{tidy}\NormalTok{(mod), }\DataTypeTok{digits =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}lrrrr@{}}
+\toprule
+term & estimate & std.error & statistic & p.value\tabularnewline
+\midrule
+\endhead
+(Intercept) & -2256.36 & 13.06 & -172.83 & 0\tabularnewline
+carat & 7756.43 & 14.07 & 551.41 & 0\tabularnewline
+\bottomrule
+\end{longtable}
+
+\hypertarget{discussion}{%
+\section{Discussion}\label{discussion}}
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\leavevmode\hypertarget{ref-RCoreTeam}{}%
+R Core Team. 2015. ``R: A Language and Environment for Statistical
+Computing.'' \url{http://www.r-project.org}.
+
+\leavevmode\hypertarget{ref-RMarkdown}{}%
+RMarkdown Team. 2015. \emph{Rmarkdown: R Markdown Document Conversion, R
+Package}. Boston, MA: RStudio, Inc. \url{http://rmarkdown.rstudio.com/}.
+
+\leavevmode\hypertarget{ref-RStudio}{}%
+RStudio Team. 2015. \emph{RStudio: Integrated Development Environment
+for R}. Boston, MA: RStudio, Inc. \url{http://www.rstudio.com/}.
+
+\leavevmode\hypertarget{ref-ggplot}{}%
+Wickham, Hadley. 2009. \emph{Ggplot2: Elegant Graphics for Data
+Analysis}. Springer-Verlag New York. \url{http://ggplot2.org}.
+
+\end{document}
